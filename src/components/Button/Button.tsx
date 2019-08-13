@@ -5,6 +5,7 @@ import './Button.scss';
 interface Props {
     buttonText: string;
     buttonType?: string;
+    openModal?: any;
 }
 
 const Button = (props: Props): JSX.Element => {
@@ -13,7 +14,7 @@ const Button = (props: Props): JSX.Element => {
         buttonClasses = `button ${props.buttonType}`;
     }
     return (
-        <div className={buttonClasses}>{props.buttonText}</div>
+        <div onClick={()=>props.openModal()} className={buttonClasses}>{props.buttonText}</div>
     );
 }
 

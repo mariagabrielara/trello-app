@@ -3,45 +3,23 @@ import Modal from 'react-modal';
 
 import './BoardModal.scss';
 
-interface BoardModalState {
+interface Props {
     modalIsOpen: boolean;
+    openModal: any;
+    closeModal: any;
 }
 
-class BoardModal extends React.Component<{}, BoardModalState> {
+const BoardModal = (props: Props): JSX.Element => {
 
-    initState() {
-        this.setState({
-          modalIsOpen: true
-        });
-    }
-    
-    componentWillMount() {
-        this.initState();
-    }
-
-    openModal() {
-        this.setState({
-            modalIsOpen: true
-        });
-    }
-     
-    closeModal() {
-        this.setState({
-            modalIsOpen: false
-        });
-    }
-
-    render() {
         return (
             <div className="boardmodal">
-              <button onClick={()=>this.openModal()}>Open Modal</button>
               <Modal
-                isOpen={this.state.modalIsOpen}
-                onRequestClose={()=>this.closeModal()}
+                isOpen={props.modalIsOpen}
+                onRequestClose={()=>props.closeModal()}
                 className="boardmodal__modal"
               >
                 <h3 className="boardmodal__header">Create new board</h3>
-                <div className="boardmodal__header boardmodal__header--close" onClick={()=>this.closeModal()}>X</div>
+                <div className="boardmodal__header boardmodal__header--close" onClick={()=>props.closeModal()}>X</div>
                 <form className="boardmodal__form">
                   <input className="boardmodal__text-input" type="text" name="board-name" placeholder="Board Name" />
                   <input className="boardmodal__date-input" type="date" name="board-due-date" />
@@ -51,7 +29,6 @@ class BoardModal extends React.Component<{}, BoardModalState> {
               </Modal>
             </div>
           );
-    }
 }
 
 export default BoardModal;
