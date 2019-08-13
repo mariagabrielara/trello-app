@@ -6,7 +6,7 @@ import Button from '../Button/Button';
 
 import googleImage from '../../img/google.jpg';
 
-import BoardModal from '../BoardModal/BoardModal';
+import BoardModal from '../Modals/BoardModal';
 
 interface SidebarState {
     modalIsOpen: boolean;
