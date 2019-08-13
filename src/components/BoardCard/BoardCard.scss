@@ -1,0 +1,35 @@
+@import '../../styles/_variables';
+
+.boardcard { 
+    padding: 0;
+    margin-left: 7%;
+    width: 93%;
+    display: inline-block;
+    line-height: 100%;
+    cursor: pointer;
+}
+
+.boardcard__image {
+    width: 4em;
+    border-radius: 10px;
+    margin: 5px;
+    float: left;
+}
+
+.boardcard__info {
+    float: left;
+    height: 100vh;
+    height: 4em; 
+    margin-top: 6px;
+    padding-top: 6px;
+}
+
+.boardcard__title {
+    color: $semilightGray;
+    margin: 5px;
+}
+
+.boardcard__todos-total {
+    margin: 5px;
+    font-size: $fontSizeSubtext;
+}

@@ -1,0 +1,23 @@
+@import '../../styles/_variables';
+
+.board {
+    width: 79vw;
+    height: 100vh;
+    display: block;
+    float: right;
+    font-family: $fontFamily;
+}
+
+.board__name {
+    margin-left: 2%;
+    margin-top: 2%;
+    font-size: $fontSizeTitle;
+    font-weight: bold;
+}
+
+.board__due-date {
+    margin-left: 2%;
+    margin-top: 0.5%;
+    margin-bottom: 2%;
+    font-size: $fontSizeText;
+}

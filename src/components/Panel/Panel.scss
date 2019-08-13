@@ -1,0 +1,28 @@
+@import '../../styles/_variables';
+
+.panel {
+    background-color: $lightGray;
+    width: 29%;
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-right: 1%;
+    float: left;
+}
+
+.panel__title {
+    margin: 15px 0 15px 15px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.panel__quantity {
+    margin: 17px 15px 15px 0;
+    font-weight: bold;
+    float: right;
+    color: #348bd6;
+    font-size: $fontSizeText;
+}
+
+.panel__content {
+    margin-bottom: 22px;
+}
