@@ -1,20 +1,15 @@
 import React from 'react';
 
-import './Board.scss';
+import './DragDropComponent.scss';
 
 import Panel from '../Panel/Panel';
 import Task from '../Task/Task';
 
-interface Props {
-    boardName: string;
-    boardDueDate: string;
-}
-
-interface BoardState {
+interface DDState {
     tasks: { key: string, panel: string, taskComponent: JSX.Element }[]
 }
 
-class Board extends React.Component<Props, BoardState> {
+class DragDropComponent extends React.Component<{}, DDState> {
 
     initState() {
         this.setState({
@@ -75,8 +70,7 @@ class Board extends React.Component<Props, BoardState> {
         });
     }
 
-    render () {
-
+    render() {
         let tasks: {
             todo: Array<JSX.Element>, 
             inprogress: Array<JSX.Element>, 
@@ -119,9 +113,7 @@ class Board extends React.Component<Props, BoardState> {
         });
 
         return (
-            <div className="board">
-                <div className="board__name">{this.props.boardName}</div>
-                <div className="board__due-date">Due date: {this.props.boardDueDate}</div>
+            <div>
                 <div 
                     onDragOver={(e)=>this.onDragOver(e)}
                     onDrop={(e)=>{this.onDrop(e, "todo")}}>
@@ -152,7 +144,6 @@ class Board extends React.Component<Props, BoardState> {
             </div>
         );
     }
-    
 }
 
-export default Board;
+export default DragDropComponent;

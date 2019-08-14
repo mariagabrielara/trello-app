@@ -9,6 +9,7 @@ import TaskModal from '../Modals/TaskModal';
 interface Props {
     panelTitle: string;
     panelQuantity: number;
+    tasksList: Array<JSX.Element>;
 }
 
 interface PanelState {
@@ -46,18 +47,9 @@ class Panel extends React.Component<Props, PanelState> {
                 <div className="panel__title">{this.props.panelTitle}</div>
                 <div className="panel__quantity">{this.props.panelQuantity}</div>
                 <div className="panel__content">
-                    <Task 
-                        taskCategory="IT"
-                        taskName="Implement redux to project"
-                        taskDate="03-09-2019"
-                        taskStatus="Active"
-                    />
-                    <Task 
-                        taskCategory="IT"
-                        taskName="Implement redux to project"
-                        taskDate="03-09-2019"
-                        taskStatus="Active"
-                    />
+                    {this.props.tasksList.map((t) => {
+                        return t;
+                    })}
                 </div>
                 <Button 
                     buttonText="+ Add Task"

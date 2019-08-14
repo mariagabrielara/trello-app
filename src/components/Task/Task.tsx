@@ -11,7 +11,7 @@ interface Props {
 
 const Task = (props: Props): JSX.Element => {
     return (
-        <div className="task">
+        <div draggable className="task">
             <div className="task__category">{props.taskCategory}</div>
             <div className="task__name">{props.taskName}</div>
             <div className="task__date">Date: {props.taskDate}</div>
