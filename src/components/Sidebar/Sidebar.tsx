@@ -12,15 +12,7 @@ interface SidebarState {
 }
 
 interface Props {
-    boardsList: Array<{
-        id: number, 
-        img: string, 
-        name: string, 
-        dueDate: string, 
-        todos: [],
-        inprogress: [],
-        done: []
-    }>;
+    boardsList: Array<{img: string, name: string, dueDate: string}>;
 }
 
 class Sidebar extends React.Component<Props, SidebarState> {
@@ -56,11 +48,15 @@ class Sidebar extends React.Component<Props, SidebarState> {
                 <div className="sidebar__title">Boards</div>
                 <ul className="sidebar__list">
                     {this.props.boardsList.map((b) => (
-                        <li className="sidebar__element" key={b.id}>
+                        <li className="sidebar__element">
                             <BoardCard 
                                 imgUrl={b.img}
                                 boardTitle={b.name}
+<<<<<<< HEAD
                                 todos={0} />
+=======
+                                todos={10} />
+>>>>>>> parent of 042f5a01... Creates board, adds it to the global state and sets activeBoard variable at global state
                         </li>
                     ))}
                 </ul>
