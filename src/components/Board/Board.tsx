@@ -63,7 +63,7 @@ class Board extends React.Component<Props, BoardState> {
     onDrop = (e: React.DragEvent, cat: string) => {
         let id = e.dataTransfer.getData("id");
         let tasks = this.state.tasks.filter((task) => {
-            if (task.key == id) {
+            if (task.key === id) {
                 task.panel = cat;
             }
             return task;

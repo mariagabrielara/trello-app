@@ -4,25 +4,48 @@ import './App.scss';
 import Sidebar from './components/Sidebar/Sidebar';
 import Board from './components/Board/Board';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 interface AppState {
-  activeBoard: JSX.Element;
+  activeBoard: string;
+  boardsList: Array<{}>;
 }
 
-class App extends React.Component<{}, AppState> {
-  activeBoard = 
-    <Board 
-      boardName="Board "
-      boardDueDate="01-10-2019"
-    />;
+interface Props {
+  onSetActiveBoard: typeof actions.onSetActiveBoard;
+  activeBoard: string;
+  boardsList: Array<{}>;
+}
+
+const actions = {
+  onSetActiveBoard: (val: string) => ({type: 'SET_ACTIVE_BOARD', payload: val})
+}
+
+class App extends React.Component<Props> {
 
   render () {
     return (
       <div className="app">
         <Sidebar /> 
-        {this.activeBoard}
+        <label>{this.props.boardsList.length.toString()}</label>
+        <button onClick={()=>this.props.onSetActiveBoard(this.props.boardsList.length.toString())}>CLICK</button>
       </div>
     );
+
   }
+
 }
 
-export default App;
+const mapStateToProps = (state: AppState) => ({
+    activeBoard: state.activeBoard,
+    boardsList: state.boardsList
+})
+
+const mapDispatchToProps = (dispatch: any) => ({
+  ...bindActionCreators({
+      ...actions,
+    }, dispatch)
+  });
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

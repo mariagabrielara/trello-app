@@ -4,16 +4,18 @@ import './Sidebar.scss';
 import BoardCard from '../BoardCard/BoardCard';
 import Button from '../Button/Button';
 
-import googleImage from '../../img/google.jpg';
-
 import BoardModal from '../Modals/BoardModal';
+import { connect } from 'react-redux';
 
 interface SidebarState {
     modalIsOpen: boolean;
-    boardsList: Array<JSX.Element>;
 }
 
-class Sidebar extends React.Component<{}, SidebarState> {
+interface Props {
+    boardsList: Array<{img: string, name: string, dueDate: string}>;
+}
+
+class Sidebar extends React.Component<Props, SidebarState> {
 
     initState() {
         this.setState({
@@ -44,24 +46,14 @@ class Sidebar extends React.Component<{}, SidebarState> {
             <div className="sidebar">
                 <div className="sidebar__title">Boards</div>
                 <ul className="sidebar__list">
-                    <li className="sidebar__element">
-                        <BoardCard 
-                            imgUrl={googleImage}
-                            boardTitle="BOARD 1"
-                            todos={67} />
-                    </li>
-                    <li className="sidebar__element">
-                        <BoardCard 
-                            imgUrl={googleImage}
-                            boardTitle="BOARD 2"
-                            todos={67} />
-                    </li>
-                    <li className="sidebar__element">
-                        <BoardCard 
-                            imgUrl={googleImage}
-                            boardTitle="BOARD 3"
-                            todos={67} />
-                    </li>
+                    {this.props.boardsList.map((b) => (
+                        <li className="sidebar__element">
+                            <BoardCard 
+                                imgUrl={b.img}
+                                boardTitle={b.name}
+                                todos={10} />
+                        </li>
+                    ))}
                 </ul>
                 <div>
                     <Button 
@@ -80,4 +72,8 @@ class Sidebar extends React.Component<{}, SidebarState> {
     }
 }
 
-export default Sidebar;
+const mapStateToProps = (state: Props) => ({
+    boardsList: state.boardsList
+})
+
+export default connect(mapStateToProps)(Sidebar);

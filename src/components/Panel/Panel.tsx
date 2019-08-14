@@ -3,7 +3,6 @@ import React from 'react';
 import './Panel.scss';
 
 import Button from '../Button/Button';
-import Task from '../Task/Task';
 import TaskModal from '../Modals/TaskModal';
 
 interface Props {
