@@ -115,9 +115,9 @@ class Board extends React.Component<Props, BoardState> {
             inprogress: Array<JSX.Element>, 
             done: Array<JSX.Element>
         } = {
-            todo: this.state.board.todos,
-            inprogress: this.state.board.inprogress,
-            done: this.state.board.done
+                todo: [],
+                inprogress: [],
+                done: []
         }
 
         this.state.tasks.forEach((t) => {
@@ -162,7 +162,7 @@ class Board extends React.Component<Props, BoardState> {
                     <Panel 
                         tasksList={tasks.todo}
                         panelTitle="TODO"
-                        panelQuantity={10}
+                        panelQuantity={this.state.board.todos.length}
                     />
                 </div>
                 <div 
@@ -171,7 +171,7 @@ class Board extends React.Component<Props, BoardState> {
                     <Panel 
                         tasksList={tasks.inprogress}
                         panelTitle="IN PROGRESS"
-                        panelQuantity={10}
+                        panelQuantity={this.state.board.inprogress.length}
                     />
                 </div>
                 <div 
@@ -180,7 +180,7 @@ class Board extends React.Component<Props, BoardState> {
                     <Panel 
                         tasksList={tasks.done}
                         panelTitle="DONE"
-                        panelQuantity={10}
+                        panelQuantity={this.state.board.done.length}
                     />
                 </div>
             </div>

@@ -50,6 +50,7 @@ class Sidebar extends React.Component<Props, SidebarState> {
     }
 
     render () {
+        console.log(this.props.boardsList);
         return (
             <div className="sidebar">
                 <div className="sidebar__title">Boards</div>
@@ -59,7 +60,7 @@ class Sidebar extends React.Component<Props, SidebarState> {
                             <BoardCard 
                                 imgUrl={b.img}
                                 boardTitle={b.name}
-                                todos={b.todos.length} />
+                                todos={0} />
                         </li>
                     ))}
                 </ul>

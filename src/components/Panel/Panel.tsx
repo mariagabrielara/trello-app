@@ -5,14 +5,39 @@ import './Panel.scss';
 import Button from '../Button/Button';
 import TaskModal from '../Modals/TaskModal';
 
+import { connect } from 'react-redux';
+
 interface Props {
     panelTitle: string;
     panelQuantity: number;
     tasksList: Array<JSX.Element>;
+    activeBoard: number;
+    boardsList: Array<{
+        id: number, 
+        img: string, 
+        name: string, 
+        dueDate: string, 
+        todos: [],
+        inprogress: [],
+        done: []
+    }>;
 }
 
 interface PanelState {
     taskModalIsOpen: boolean;
+}
+
+interface PanelGlobalState {
+    activeBoard: number;
+    boardsList: Array<{
+        id: number, 
+        img: string, 
+        name: string, 
+        dueDate: string, 
+        todos: [],
+        inprogress: [],
+        done: []
+    }>;
 }
 
 class Panel extends React.Component<Props, PanelState> {
@@ -58,10 +83,16 @@ class Panel extends React.Component<Props, PanelState> {
                     taskModalIsOpen={this.state.taskModalIsOpen}
                     openModal={this.openModal}
                     closeModal={this.closeModal}
+                    board={this.props.boardsList[this.props.activeBoard]}
                 />
             </div>
         );
      } 
 }
 
-export default Panel;
+const mapStateToProps = (state: PanelGlobalState) => ({
+    activeBoard: state.activeBoard,
+    boardsList: state.boardsList
+})
+
+export default connect(mapStateToProps)(Panel);

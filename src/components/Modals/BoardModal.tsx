@@ -2,20 +2,37 @@ import React from 'react';
 import Modal from 'react-modal';
 
 import './BoardModal.scss';
-import googleImage from '../../img/google.jpg';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+interface Board {
+  id: number, 
+  img: string, 
+  name: string, 
+  dueDate: string, 
+  todos: Array<Task>,
+  inprogress: Array<Task>,
+  done: Array<Task>
+}
+
+interface Task {
+  taskId: number,
+  category: string,
+  taskName: string,
+  taskDueDate: string,
+  taskStatus: string
+}
+
 interface BoardModalState {
-  boardsList: Array<{}>;
+  boardsList: Array<Board>;
   newBoardName: string;
   newBoardImg: string;
   newBoardDueDate: string;
 }
 
 interface Props {
-    boardsList: Array<{}>;
+    boardsList: Array<Board>;
     modalIsOpen: boolean;
     openModal: any;
     closeModal: any;
@@ -23,16 +40,7 @@ interface Props {
 }
 
 const actions = {
-  onCreateNewBoard: (
-    val: {
-      id: number, 
-      img: string, 
-      name: string, 
-      dueDate: string, 
-      todos: [],
-      inprogress: [],
-      done: []
-    }) => ({type: 'CREATE_NEW_BOARD', payload: val})
+  onCreateNewBoard: (val: Board) => ({type: 'CREATE_NEW_BOARD', payload: val})
 }
 
 class BoardModal extends React.Component<Props, BoardModalState> {
