@@ -10,6 +10,7 @@ import BoardModal from '../Modals/BoardModal';
 
 interface SidebarState {
     modalIsOpen: boolean;
+    boardsList: Array<JSX.Element>;
 }
 
 class Sidebar extends React.Component<{}, SidebarState> {

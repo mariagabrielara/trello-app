@@ -3,21 +3,26 @@ import './App.scss';
 
 import Sidebar from './components/Sidebar/Sidebar';
 import Board from './components/Board/Board';
-import DragDropComponent from './components/DragDropComponent/DragDropComponent';
-import Panel from './components/Panel/Panel';
-import Task from './components/Task/Task';
 
-const App: React.FC = () => {
+interface AppState {
+  activeBoard: JSX.Element;
+}
 
-  return (
-    <div className="app">
-      <Sidebar /> 
-      <Board 
-        boardName="Board 1"
-        boardDueDate="01-10-2019"
-      />
-    </div>
-  );
+class App extends React.Component<{}, AppState> {
+  activeBoard = 
+    <Board 
+      boardName="Board "
+      boardDueDate="01-10-2019"
+    />;
+
+  render () {
+    return (
+      <div className="app">
+        <Sidebar /> 
+        {this.activeBoard}
+      </div>
+    );
+  }
 }
 
 export default App;
