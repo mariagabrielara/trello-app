@@ -22,18 +22,12 @@ interface Task {
 }
 
 interface State {
-<<<<<<< HEAD
     activeBoard: number;
     boardsList: Array<Board>;
-=======
-    activeBoard: string;
-
-    boardsList: Array<{img: string, name: string, dueDate: string}>;
->>>>>>> parent of 042f5a01... Creates board, adds it to the global state and sets activeBoard variable at global state
 }
 
 const initialState: State = {
-    activeBoard: '1',
+    activeBoard: 0,
     boardsList: []
 };
 
@@ -77,6 +71,7 @@ const reducer = (state: State = initialState, action: Action) => {
         case 'CREATE_NEW_BOARD':
             return {
                 ...state,
+                activeBoard: action.payload.id,
                 boardsList: [...state.boardsList, action.payload]
             }
         case 'CREATE_NEW_TASK':
