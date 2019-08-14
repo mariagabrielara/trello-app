@@ -80,7 +80,7 @@ class Board extends React.Component<Props, BoardState> {
         });
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.initState();
     }
 

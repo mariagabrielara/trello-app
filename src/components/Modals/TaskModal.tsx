@@ -87,6 +87,7 @@ class TaskModal extends React.Component<Props, TaskModalState> {
           isOpen={this.props.taskModalIsOpen}
           onRequestClose={()=>this.props.closeModal()}
           className="taskmodal__modal"
+          ariaHideApp={false}
         >
           <h3 className="taskmodal__header">Create new task</h3>
           <div className="taskmodal__header taskmodal__header--close" onClick={()=>this.props.closeModal()}>X</div>
@@ -95,7 +96,13 @@ class TaskModal extends React.Component<Props, TaskModalState> {
             <input className="taskmodal__text-input" type="text" name="task-name" placeholder="Name" />
             <input className="taskmodal__date-input" type="date" name="task-due-date" />
             <input className="taskmodal__text-input" type="text" name="task-status" placeholder="Status" />
-            <button className="taskmodal__button" onClick={this.handleSubmit}>+ Add Task</button>
+            <button 
+                type="button"
+                className="taskmodal__button" 
+                onClick={this.handleSubmit}
+              >
+              + Add Task
+            </button>
           </form>
         </Modal>
       </div>

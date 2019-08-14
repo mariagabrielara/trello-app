@@ -31,7 +31,7 @@ class Sidebar extends React.Component<Props, SidebarState> {
         });
     }
     
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.initState();

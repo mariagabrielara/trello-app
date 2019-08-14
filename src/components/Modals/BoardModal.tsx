@@ -78,6 +78,7 @@ class BoardModal extends React.Component<Props, BoardModalState> {
             isOpen={this.props.modalIsOpen}
             onRequestClose={()=>this.props.closeModal()}
             className="boardmodal__modal"
+            ariaHideApp={false}
           >
             <h3 className="boardmodal__header">Create new board</h3>
             <div className="boardmodal__header boardmodal__header--close" onClick={()=>this.props.closeModal()}>X</div>
@@ -87,6 +88,7 @@ class BoardModal extends React.Component<Props, BoardModalState> {
               <input className="boardmodal__date-input" type="date" id="board-due-date" />
               <input className="boardmodal__img-input" type="file" id="board-img" accept="image/*" />
               <button 
+                type="button"
                 className="boardmodal__button" 
                 onClick={this.handleSubmit}
                 >

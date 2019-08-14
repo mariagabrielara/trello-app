@@ -47,7 +47,7 @@ class Panel extends React.Component<Props, PanelState> {
         });
     }
     
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.initState();
