@@ -4,13 +4,21 @@ interface Action {
 }
 
 interface State {
-    activeBoard: string;
+    activeBoard: number;
 
-    boardsList: Array<{img: string, name: string, dueDate: string}>;
+    boardsList: Array<{
+        id: number, 
+        img: string, 
+        name: string, 
+        dueDate: string, 
+        todos: [],
+        inprogress: [],
+        done: []
+    }>;
 }
 
 const initialState: State = {
-    activeBoard: '1',
+    activeBoard: 0,
     boardsList: []
 };
 
@@ -25,6 +33,7 @@ const reducer = (state: State = initialState, action: Action) => {
         case 'CREATE_NEW_BOARD':
             return {
                 ...state,
+                activeBoard: action.payload.id,
                 boardsList: [...state.boardsList, action.payload]
             }
         default:

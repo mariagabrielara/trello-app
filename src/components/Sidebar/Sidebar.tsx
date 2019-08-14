@@ -12,7 +12,15 @@ interface SidebarState {
 }
 
 interface Props {
-    boardsList: Array<{img: string, name: string, dueDate: string}>;
+    boardsList: Array<{
+        id: number, 
+        img: string, 
+        name: string, 
+        dueDate: string, 
+        todos: [],
+        inprogress: [],
+        done: []
+    }>;
 }
 
 class Sidebar extends React.Component<Props, SidebarState> {
@@ -47,11 +55,11 @@ class Sidebar extends React.Component<Props, SidebarState> {
                 <div className="sidebar__title">Boards</div>
                 <ul className="sidebar__list">
                     {this.props.boardsList.map((b) => (
-                        <li className="sidebar__element">
+                        <li className="sidebar__element" key={b.id}>
                             <BoardCard 
                                 imgUrl={b.img}
                                 boardTitle={b.name}
-                                todos={10} />
+                                todos={b.todos.length} />
                         </li>
                     ))}
                 </ul>

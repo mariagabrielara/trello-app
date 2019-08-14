@@ -6,17 +6,41 @@ import Panel from '../Panel/Panel';
 import Task from '../Task/Task';
 
 interface Props {
-    boardName: string;
-    boardDueDate: string;
+    id: number,
+    boardsList: Array<{
+        id: number, 
+        img: string, 
+        name: string, 
+        dueDate: string, 
+        todos: [],
+        inprogress: [],
+        done: []
+    }>;
 }
 
 interface BoardState {
-    tasks: { key: string, panel: string, taskComponent: JSX.Element }[]
+    tasks: { 
+        key: string, 
+        panel: string, 
+        taskComponent: JSX.Element 
+    }[],
+    board: {
+        id: number, 
+        img: string, 
+        name: string, 
+        dueDate: string, 
+        todos: [],
+        inprogress: [],
+        done: []
+    }
 }
 
 class Board extends React.Component<Props, BoardState> {
 
     initState() {
+
+        let currentBoard = this.props.boardsList.filter((b) => b.id === this.props.id)
+
         this.setState({
             tasks: [
                 {   
@@ -43,7 +67,16 @@ class Board extends React.Component<Props, BoardState> {
                         />
                     )
                 }
-            ]
+            ],
+            board: {
+                id: currentBoard[0].id, 
+                img: currentBoard[0].img, 
+                name: currentBoard[0].name, 
+                dueDate: currentBoard[0].dueDate, 
+                todos: currentBoard[0].todos, 
+                inprogress: currentBoard[0].inprogress, 
+                done: currentBoard[0].done
+            }
         });
     }
 
@@ -80,10 +113,11 @@ class Board extends React.Component<Props, BoardState> {
         let tasks: {
             todo: Array<JSX.Element>, 
             inprogress: Array<JSX.Element>, 
-            done: Array<JSX.Element>} = {
-                todo: [],
-                inprogress: [],
-                done: []
+            done: Array<JSX.Element>
+        } = {
+            todo: this.state.board.todos,
+            inprogress: this.state.board.inprogress,
+            done: this.state.board.done
         }
 
         this.state.tasks.forEach((t) => {
@@ -120,8 +154,8 @@ class Board extends React.Component<Props, BoardState> {
 
         return (
             <div className="board">
-                <div className="board__name">{this.props.boardName}</div>
-                <div className="board__due-date">Due date: {this.props.boardDueDate}</div>
+                <div className="board__name">{this.state.board.name}</div>
+                <div className="board__due-date">Due date: {this.state.board.dueDate}</div>
                 <div 
                     onDragOver={(e)=>this.onDragOver(e)}
                     onDrop={(e)=>{this.onDrop(e, "todo")}}>
@@ -154,5 +188,4 @@ class Board extends React.Component<Props, BoardState> {
     }
     
 }
-
 export default Board;
