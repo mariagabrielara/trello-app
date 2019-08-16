@@ -71,10 +71,10 @@ class TaskModal extends React.Component<Props, TaskModalState> {
     super(props);
     this.state = {
       currentBoard: this.props.board,
-      newTaskCategory: 'Task Category',
-      newTaskName: 'Task Name',
-      newTaskDueDate: 'Task Date',
-      newTaskStatus: 'Task Status'
+      newTaskCategory: '',
+      newTaskName: '',
+      newTaskDueDate: '',
+      newTaskStatus: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -106,10 +106,35 @@ class TaskModal extends React.Component<Props, TaskModalState> {
           <h3 className="taskmodal__header">Create new task</h3>
           <div className="taskmodal__header taskmodal__header--close" onClick={()=>this.props.closeModal()}>X</div>
           <form className="taskmodal__form">
-            <input className="taskmodal__text-input" type="text" name="task-category" placeholder="Category" />
-            <input className="taskmodal__text-input" type="text" name="task-name" placeholder="Name" />
-            <input className="taskmodal__date-input" type="date" name="task-due-date" />
-            <input className="taskmodal__text-input" type="text" name="task-status" placeholder="Status" />
+            <input 
+              className="taskmodal__text-input" 
+              type="text" name="task-category" 
+              placeholder="Category" 
+              onChange={(e)=>this.setState({newTaskCategory: e.target.value})} 
+              value={this.state.newTaskCategory}
+            />
+            <input 
+              className="taskmodal__text-input" 
+              type="text" name="task-name" 
+              placeholder="Name" 
+              onChange={(e)=>this.setState({newTaskName: e.target.value})} 
+              value={this.state.newTaskName}
+            />
+            <input 
+              className="taskmodal__date-input" 
+              type="date" 
+              name="task-due-date" 
+              onChange={(e)=>this.setState({newTaskDueDate: e.target.value})} 
+              value={this.state.newTaskDueDate}
+            />
+            <input 
+              className="taskmodal__text-input" 
+              type="text"
+              name="task-status" 
+              placeholder="Status" 
+              onChange={(e)=>this.setState({newTaskStatus: e.target.value})} 
+              value={this.state.newTaskStatus}
+            />
             <button 
                 type="button"
                 className="taskmodal__button" 
