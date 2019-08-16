@@ -72,6 +72,37 @@ const updateBoardsList = (state: State, action: Action) => {
     return mapedBoardsArray;
 }
 
+const updateBoardTask = (state: State, action: Action) => {
+
+    let currentBoard = state.activeBoardData;
+    let currentBoardUpdate = currentBoard.tasks.map(ts => {
+        if (ts.taskId === action.payload.taskId) {
+            return ({
+                taskId: ts.taskId,
+                category: ts.category,
+                taskName: ts.taskName,
+                taskDueDate: ts.taskDueDate,
+                taskStatus: ts.taskStatus,
+                taskPanel: action.payload.newPanel
+            });
+        } else {
+            return ts;
+        }
+    });
+
+    currentBoard.tasks = currentBoardUpdate;
+    
+    let boardsArray = [...state.boardsList];
+    let mapedBoardsArray = boardsArray.map(board => {
+        if (board.id === state.activeBoard) {
+            board = currentBoard;
+        } 
+        return board;
+    })
+    return mapedBoardsArray;
+
+}
+
 const reducer = (state: State = initialState, action: Action) => {
 
     let newActiveBoard = getActiveBoardData(state);
@@ -121,6 +152,12 @@ const reducer = (state: State = initialState, action: Action) => {
             return {
                     ...state,
                     boardsList: boardsUpdated
+                } 
+        case 'ON_CHANGE_PANEL':
+            let updatedBoards = updateBoardTask(state, action);
+            return {
+                    ...state,
+                    boardsList: updatedBoards
                 } 
         default:
             return state;

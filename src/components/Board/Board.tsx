@@ -24,6 +24,7 @@ interface Props {
         tasks: []
     };
     onSetActiveBoard: typeof actions.onSetActiveBoard;
+    onChangePanel: typeof actions.onChangePanel;
 }
 
 interface BoardState {
@@ -63,7 +64,8 @@ interface TaskData {
 }
 
 const actions = {
-    onSetActiveBoard: (val: number) => ({type: 'SET_ACTIVE_BOARD', payload: val})
+    onSetActiveBoard: (val: number) => ({type: 'SET_ACTIVE_BOARD', payload: val}),
+    onChangePanel: (val: {taskId: number, newPanel: string}) => ({type: 'ON_CHANGE_PANEL', payload: val})
 }
 
 class Board extends React.Component<Props, BoardState> {
@@ -100,7 +102,6 @@ class Board extends React.Component<Props, BoardState> {
     }
 
     onDragStart = (e: React.DragEvent, id: string) => {
-        console.log('dragstart:', id);
         e.dataTransfer.setData("id",id);
     }
 
@@ -110,16 +111,9 @@ class Board extends React.Component<Props, BoardState> {
 
     onDrop = (e: React.DragEvent, cat: string) => {
         let id = e.dataTransfer.getData("id");
-        let tasks = this.state.tasks.filter((task) => {
-            if (task.key.toString() === id) {
-                task.panel = cat;
-            }
-            return task;
-        });
-
-        this.setState({
-            ...this.state,
-            tasks
+        return this.props.onChangePanel({
+            taskId: +id, 
+            newPanel: cat
         });
     }
 
@@ -158,7 +152,9 @@ class Board extends React.Component<Props, BoardState> {
                         <div 
                             key={t.key} 
                             onDragStart={(e) => this.onDragStart(e, t.key.toString())} 
-                            draggable> {t.taskComponent} </div>
+                            draggable> 
+                            {t.taskComponent} 
+                        </div>
                     );
                 break;
 
@@ -167,7 +163,9 @@ class Board extends React.Component<Props, BoardState> {
                         <div 
                             key={t.key} 
                             onDragStart={(e) => this.onDragStart(e, t.key.toString())} 
-                            draggable> {t.taskComponent} </div>
+                            draggable> 
+                            {t.taskComponent} 
+                        </div>
                     );
                 break;
 
@@ -176,7 +174,9 @@ class Board extends React.Component<Props, BoardState> {
                         <div 
                             key={t.key} 
                             onDragStart={(e) => this.onDragStart(e, t.key.toString())} 
-                            draggable> {t.taskComponent} </div>
+                            draggable> 
+                            {t.taskComponent} 
+                        </div>
                     );
                 break;
             }
