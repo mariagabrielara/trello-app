@@ -53,6 +53,15 @@ interface FormattedTask {
    taskComponent: JSX.Element; 
 }
 
+interface TaskData {
+    taskId: number,
+    category: string,
+    taskName: string,
+    taskDueDate: string,
+    taskStatus: string
+    taskPanel: string;
+}
+
 const actions = {
     onSetActiveBoard: (val: number) => ({type: 'SET_ACTIVE_BOARD', payload: val})
 }
@@ -115,9 +124,22 @@ class Board extends React.Component<Props, BoardState> {
     }
 
     render () {
-        console.log('renderizando el board');
-        console.log(this.props.activeBoardData);
+        let globalStateTasks: Array<TaskData> = this.props.activeBoardData.tasks;
 
+        let globalStateTasksFormatted = globalStateTasks.map(st => {
+            return {
+                key: st.taskId, 
+                panel: st.taskPanel, 
+                taskComponent: (
+                    <Task
+                        taskCategory={st.category}
+                        taskName={st.taskName}
+                        taskDate={st.taskDueDate}
+                        taskStatus={st.taskStatus}
+                    />
+                )
+            }
+        });
 
         let tasks: {
             todo: Array<JSX.Element>, 
@@ -129,7 +151,7 @@ class Board extends React.Component<Props, BoardState> {
             done: []
         }
 
-        this.state.tasks.forEach((t) => {
+        globalStateTasksFormatted.forEach((t) => {
             switch (t.panel) {
                 case 'todo':
                     tasks.todo.push( 
@@ -172,6 +194,7 @@ class Board extends React.Component<Props, BoardState> {
                         tasksList={tasks.todo}
                         panelTitle="TODO"
                         panelQuantity={this.props.activeBoardData.tasks.length}
+                        panelType='todo'
                     />
                 </div>
                 <div 
@@ -181,6 +204,7 @@ class Board extends React.Component<Props, BoardState> {
                         tasksList={tasks.inprogress}
                         panelTitle="IN PROGRESS"
                         panelQuantity={this.props.activeBoardData.tasks.length}
+                        panelType='inprogress'
                     />
                 </div>
                 <div 
@@ -190,6 +214,7 @@ class Board extends React.Component<Props, BoardState> {
                         tasksList={tasks.done}
                         panelTitle="DONE"
                         panelQuantity={this.props.activeBoardData.tasks.length}
+                        panelType='done'
                     />
                 </div>
             </div>

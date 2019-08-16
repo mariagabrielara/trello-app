@@ -34,7 +34,14 @@ const initialState: State = {
         img: '', 
         name: '', 
         dueDate: '', 
-        tasks: []
+        tasks: [{
+            taskId: 0,
+            category: '',
+            taskName: '',
+            taskDueDate: '',
+            taskStatus: '',
+            taskPanel: 'todo'
+        }]
     }
 };
 

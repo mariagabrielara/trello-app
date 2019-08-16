@@ -48,13 +48,11 @@ class App extends React.Component<Props> {
       );
     } 
 
-    console.log(this.props);
+   // console.log(this.props);
 
     return (
       <div className="app">
         <Sidebar /> 
-        {/*<label>{this.props.boardsList.length.toString()}</label>
-        <button onClick={()=>this.props.onSetActiveBoard(this.props.boardsList.length.toString())}>CLICK</button>*/}
         {content}
       </div>
     );

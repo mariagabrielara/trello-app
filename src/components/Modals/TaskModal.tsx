@@ -39,6 +39,7 @@ interface Props {
       dueDate: string, 
       tasks: []
     };
+    panelType: string;
 }
 
 interface Task {
@@ -87,7 +88,7 @@ class TaskModal extends React.Component<Props, TaskModalState> {
         taskName: this.state.newTaskName,
         taskDueDate: this.state.newTaskDueDate,
         taskStatus: this.state.newTaskStatus,
-        taskPanel: 'todos'
+        taskPanel: this.props.panelType
       }
     )
   }

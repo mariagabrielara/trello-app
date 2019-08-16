@@ -22,6 +22,7 @@ interface Props {
         done: []
     }>;
     activeBoardData: Board;
+    panelType: string;
 }
 
 interface PanelState {
@@ -104,6 +105,7 @@ class Panel extends React.Component<Props, PanelState> {
                     openModal={this.openModal}
                     closeModal={this.closeModal}
                     board={this.props.boardsList[this.props.activeBoard]}
+                    panelType={this.props.panelType}
                 />
             </div>
         );
