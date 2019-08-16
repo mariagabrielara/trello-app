@@ -9,6 +9,13 @@ import { bindActionCreators } from 'redux';
 interface GlobalState {
   activeBoard: number;
   boardsList: Array<BoardStructure>;
+  activeBoardData: {
+    id: number, 
+    img: string, 
+    name: string, 
+    dueDate: string, 
+    tasks: []
+  };
 }
 
 interface TaskModalState {
@@ -25,6 +32,13 @@ interface Props {
     closeModal: any;
     board: BoardStructure;
     onCreateNewTask: typeof actions.onCreateNewTask;
+    activeBoardData: {
+      id: number, 
+      img: string, 
+      name: string, 
+      dueDate: string, 
+      tasks: []
+    };
 }
 
 interface Task {
@@ -79,6 +93,7 @@ class TaskModal extends React.Component<Props, TaskModalState> {
   }
 
   render () {
+
     return (
       <div className="taskmodal">
         <Modal
@@ -110,7 +125,8 @@ class TaskModal extends React.Component<Props, TaskModalState> {
 
 const mapStateToProps = (state: GlobalState) => ({
   activeBoard: state.activeBoard,
-  boardsList: state.boardsList
+  boardsList: state.boardsList,
+  activeBoardData: state.activeBoardData
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

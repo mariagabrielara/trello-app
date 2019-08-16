@@ -110,9 +110,10 @@ const reducer = (state: State = initialState, action: Action) => {
                 } 
             } 
         case 'CREATE_NEW_TASK':
-            console.log(updateBoardsList(state, action));
+            let boardsUpdated = updateBoardsList(state, action);
             return {
-                    ...state
+                    ...state,
+                    boardsList: boardsUpdated
                 } 
         default:
             return state;

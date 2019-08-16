@@ -85,6 +85,7 @@ class Panel extends React.Component<Props, PanelState> {
     }
 
      render() {
+
         return (
             <div className="panel">
                 <div className="panel__title">{this.props.panelTitle}</div>

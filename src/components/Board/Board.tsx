@@ -48,7 +48,7 @@ interface BoardGlobalState {
 }
 
 interface FormattedTask {
-   key: number;
+   key: string;
    panel: string;
    taskComponent: JSX.Element; 
 }
@@ -60,52 +60,21 @@ const actions = {
 class Board extends React.Component<Props, BoardState> {
 
     initState() {
-
-        let tasksList = this.props.activeBoardData.tasks;
-
-        let formattedTasks: Array<FormattedTask> = tasksList.map(task => ({
-            key: Math.random(),
-            panel: 'todos',
-            taskComponent: (
-                <Task
-                    taskCategory="TD"
-                    taskName="TD 1"
-                    taskDate="1-1-19"
-                    taskStatus="Active"
-                />
-            )
-        }));
-
-        console.log(formattedTasks.length);
-
         this.setState({
-            tasks: formattedTasks,
-            // tasks: [
-            //     {   
-            //         key: Math.random().toString(), 
-            //         panel: "todo", 
-            //         taskComponent: (
-            //             <Task
-            //                 taskCategory="TD"
-            //                 taskName="TD 1"
-            //                 taskDate="1-1-19"
-            //                 taskStatus="Active"
-            //             />
-            //         )
-            //     },
-            //     {   
-            //         key: Math.random().toString(), 
-            //         panel: "inprogress", 
-            //         taskComponent: (
-            //             <Task
-            //                 taskCategory="IP"
-            //                 taskName="IP 1"
-            //                 taskDate="1-1-19"
-            //                 taskStatus="Active"
-            //             />
-            //         )
-            //     }
-            // ],
+            tasks: [
+                {   
+                    key: Math.random().toString(), 
+                    panel: "todo", 
+                    taskComponent: (
+                        <Task
+                            taskCategory="TD"
+                            taskName="TD 1"
+                            taskDate="1-1-19"
+                            taskStatus="Active"
+                        />
+                    )
+                }
+             ],
             board: {
                 id: this.props.activeBoardData.id, 
                 img: this.props.activeBoardData.img, 
@@ -146,7 +115,10 @@ class Board extends React.Component<Props, BoardState> {
     }
 
     render () {
-        console.log('reder');
+        console.log('renderizando el board');
+        console.log(this.props.activeBoardData);
+
+
         let tasks: {
             todo: Array<JSX.Element>, 
             inprogress: Array<JSX.Element>, 
