@@ -17,6 +17,7 @@ interface Task {
     taskName: string,
     taskDueDate: string,
     taskStatus: string
+    taskPanel: string;
 }
 
 interface State {
@@ -39,6 +40,29 @@ const initialState: State = {
 
 const getActiveBoardData = (state: State) => {
     return (state.boardsList.filter((item) => item.id === state.activeBoard))[0];
+}
+
+const updateBoardsList = (state: State, action: Action) => {
+    let newTask = {
+        taskId: action.payload.taskId,
+        category: action.payload.category,
+        taskName: action.payload.taskName,
+        taskDueDate: action.payload.taskDueDate,
+        taskStatus: action.payload.taskStatus,
+        taskPanel: action.payload.taskPanel
+    }
+
+    let currentBoardUpdated = state.activeBoardData;
+    currentBoardUpdated.tasks.push(newTask);
+
+    let boardsArray = [...state.boardsList];
+    let mapedBoardsArray = boardsArray.map(board => {
+        if (board.id === state.activeBoard) {
+            board = currentBoardUpdated;
+        } 
+        return board;
+    })
+    return mapedBoardsArray;
 }
 
 const reducer = (state: State = initialState, action: Action) => {
@@ -85,6 +109,11 @@ const reducer = (state: State = initialState, action: Action) => {
                     }
                 } 
             } 
+        case 'CREATE_NEW_TASK':
+            console.log(updateBoardsList(state, action));
+            return {
+                    ...state
+                } 
         default:
             return state;
     }

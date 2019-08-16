@@ -19,10 +19,6 @@ interface TaskModalState {
   newTaskStatus: string;
 }
 
-const actions = {
-  onCreateNewTask: (val: {task: Task, panel: string}) => ({type: 'CREATE_NEW_TASK', payload: val})
-}
-
 interface Props {
     taskModalIsOpen: boolean;
     openModal: any;
@@ -37,6 +33,7 @@ interface Task {
   taskName: string,
   taskDueDate: string,
   taskStatus: string
+  taskPanel: string;
 }
 
 interface BoardStructure {
@@ -47,6 +44,10 @@ interface BoardStructure {
   todos: Array<Task>,
   inprogress: Array<Task>,
   done: Array<Task>
+}
+
+const actions = {
+  onCreateNewTask: (val: Task) => ({type: 'CREATE_NEW_TASK', payload: val})
 }
 
 class TaskModal extends React.Component<Props, TaskModalState> {
@@ -67,14 +68,12 @@ class TaskModal extends React.Component<Props, TaskModalState> {
     this.props.closeModal();
     return this.props.onCreateNewTask(
       {
-        task: {
-          taskId: Math.random(),
-          category: this.state.newTaskCategory,
-          taskName: this.state.newTaskName,
-          taskDueDate: this.state.newTaskDueDate,
-          taskStatus: this.state.newTaskStatus
-        },
-        panel: 'todos'
+        taskId: Math.random(),
+        category: this.state.newTaskCategory,
+        taskName: this.state.newTaskName,
+        taskDueDate: this.state.newTaskDueDate,
+        taskStatus: this.state.newTaskStatus,
+        taskPanel: 'todos'
       }
     )
   }

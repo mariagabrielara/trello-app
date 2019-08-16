@@ -47,9 +47,9 @@ class BoardModal extends React.Component<Props, BoardModalState> {
       super(props);
       this.state = {
         boardsList: this.props.boardsList,
-        newBoardName: 'Board Name',
-        newBoardImg: 'https://storage.googleapis.com/davivienda_tarjetas_virtual_imgs/alejandro_pineda.png',
-        newBoardDueDate: '01-01-20'
+        newBoardName: '',
+        newBoardImg: 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+        newBoardDueDate: ''
       };
       this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -60,7 +60,7 @@ class BoardModal extends React.Component<Props, BoardModalState> {
         {
           id: this.props.boardsList.length + 1,
           img: this.state.newBoardImg, 
-          name: `${this.state.newBoardName} ${this.props.boardsList.length + 1}`, 
+          name: this.state.newBoardName, 
           dueDate: this.state.newBoardDueDate,
           tasks: []
         }
@@ -79,9 +79,21 @@ class BoardModal extends React.Component<Props, BoardModalState> {
             <h3 className="boardmodal__header">Create new board</h3>
             <div className="boardmodal__header boardmodal__header--close" onClick={()=>this.props.closeModal()}>X</div>
             <form className="boardmodal__form">
-              <input className="boardmodal__text-input" type="text" name="boardName" placeholder="Board Name" 
-                onChange={(e)=>this.setState({newBoardImg: e.target.value})} value={this.state.newBoardName}/>
-              <input className="boardmodal__date-input" type="date" id="board-due-date" />
+              <input 
+                className="boardmodal__text-input" 
+                type="text" 
+                id="boardName" 
+                placeholder="Board Name" 
+                onChange={(e)=>this.setState({newBoardName: e.target.value})} 
+                value={this.state.newBoardName}
+              />
+              <input 
+                className="boardmodal__date-input" 
+                type="date" 
+                id="board-due-date"
+                onChange={(e)=>this.setState({newBoardDueDate: e.target.value})}
+                value={this.state.newBoardDueDate}  
+              />
               <input className="boardmodal__img-input" type="file" id="board-img" accept="image/*" />
               <button 
                 type="button"

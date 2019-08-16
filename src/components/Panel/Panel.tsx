@@ -21,10 +21,28 @@ interface Props {
         inprogress: [],
         done: []
     }>;
+    activeBoardData: Board;
 }
 
 interface PanelState {
     taskModalIsOpen: boolean;
+}
+
+interface Board {
+    id: number, 
+    img: string, 
+    name: string, 
+    dueDate: string, 
+    tasks: Array<Task>
+}
+
+interface Task {
+    taskId: number,
+    category: string,
+    taskName: string,
+    taskDueDate: string,
+    taskStatus: string
+    taskPanel: string;
 }
 
 interface PanelGlobalState {
@@ -38,6 +56,7 @@ interface PanelGlobalState {
         inprogress: [],
         done: []
     }>;
+    activeBoardData: Board
 }
 
 class Panel extends React.Component<Props, PanelState> {
@@ -92,7 +111,8 @@ class Panel extends React.Component<Props, PanelState> {
 
 const mapStateToProps = (state: PanelGlobalState) => ({
     activeBoard: state.activeBoard,
-    boardsList: state.boardsList
+    boardsList: state.boardsList,
+    activeBoardData: state.activeBoardData
 })
 
 export default connect(mapStateToProps)(Panel);

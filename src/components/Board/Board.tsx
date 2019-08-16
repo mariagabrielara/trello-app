@@ -27,11 +27,7 @@ interface Props {
 }
 
 interface BoardState {
-    tasks: { 
-        key: string, 
-        panel: string, 
-        taskComponent: JSX.Element 
-    }[],
+    tasks: Array<FormattedTask>,
     board: {
         id: number, 
         img: string, 
@@ -51,6 +47,12 @@ interface BoardGlobalState {
     }
 }
 
+interface FormattedTask {
+   key: number;
+   panel: string;
+   taskComponent: JSX.Element; 
+}
+
 const actions = {
     onSetActiveBoard: (val: number) => ({type: 'SET_ACTIVE_BOARD', payload: val})
 }
@@ -59,33 +61,51 @@ class Board extends React.Component<Props, BoardState> {
 
     initState() {
 
+        let tasksList = this.props.activeBoardData.tasks;
+
+        let formattedTasks: Array<FormattedTask> = tasksList.map(task => ({
+            key: Math.random(),
+            panel: 'todos',
+            taskComponent: (
+                <Task
+                    taskCategory="TD"
+                    taskName="TD 1"
+                    taskDate="1-1-19"
+                    taskStatus="Active"
+                />
+            )
+        }));
+
+        console.log(formattedTasks.length);
+
         this.setState({
-            tasks: [
-                {   
-                    key: Math.random().toString(), 
-                    panel: "todo", 
-                    taskComponent: (
-                        <Task
-                            taskCategory="TD"
-                            taskName="TD 1"
-                            taskDate="1-1-19"
-                            taskStatus="Active"
-                        />
-                    )
-                },
-                {   
-                    key: Math.random().toString(), 
-                    panel: "inprogress", 
-                    taskComponent: (
-                        <Task
-                            taskCategory="IP"
-                            taskName="IP 1"
-                            taskDate="1-1-19"
-                            taskStatus="Active"
-                        />
-                    )
-                }
-            ],
+            tasks: formattedTasks,
+            // tasks: [
+            //     {   
+            //         key: Math.random().toString(), 
+            //         panel: "todo", 
+            //         taskComponent: (
+            //             <Task
+            //                 taskCategory="TD"
+            //                 taskName="TD 1"
+            //                 taskDate="1-1-19"
+            //                 taskStatus="Active"
+            //             />
+            //         )
+            //     },
+            //     {   
+            //         key: Math.random().toString(), 
+            //         panel: "inprogress", 
+            //         taskComponent: (
+            //             <Task
+            //                 taskCategory="IP"
+            //                 taskName="IP 1"
+            //                 taskDate="1-1-19"
+            //                 taskStatus="Active"
+            //             />
+            //         )
+            //     }
+            // ],
             board: {
                 id: this.props.activeBoardData.id, 
                 img: this.props.activeBoardData.img, 
@@ -113,7 +133,7 @@ class Board extends React.Component<Props, BoardState> {
     onDrop = (e: React.DragEvent, cat: string) => {
         let id = e.dataTransfer.getData("id");
         let tasks = this.state.tasks.filter((task) => {
-            if (task.key === id) {
+            if (task.key.toString() === id) {
                 task.panel = cat;
             }
             return task;
@@ -126,14 +146,15 @@ class Board extends React.Component<Props, BoardState> {
     }
 
     render () {
+        console.log('reder');
         let tasks: {
             todo: Array<JSX.Element>, 
             inprogress: Array<JSX.Element>, 
             done: Array<JSX.Element>
         } = {
-                todo: [],
-                inprogress: [],
-                done: []
+            todo: [],
+            inprogress: [],
+            done: []
         }
 
         this.state.tasks.forEach((t) => {
@@ -142,7 +163,7 @@ class Board extends React.Component<Props, BoardState> {
                     tasks.todo.push( 
                         <div 
                             key={t.key} 
-                            onDragStart={(e) => this.onDragStart(e, t.key)} 
+                            onDragStart={(e) => this.onDragStart(e, t.key.toString())} 
                             draggable> {t.taskComponent} </div>
                     );
                 break;
@@ -151,7 +172,7 @@ class Board extends React.Component<Props, BoardState> {
                     tasks.inprogress.push( 
                         <div 
                             key={t.key} 
-                            onDragStart={(e) => this.onDragStart(e, t.key)} 
+                            onDragStart={(e) => this.onDragStart(e, t.key.toString())} 
                             draggable> {t.taskComponent} </div>
                     );
                 break;
@@ -160,7 +181,7 @@ class Board extends React.Component<Props, BoardState> {
                     tasks.done.push( 
                         <div 
                             key={t.key} 
-                            onDragStart={(e) => this.onDragStart(e, t.key)} 
+                            onDragStart={(e) => this.onDragStart(e, t.key.toString())} 
                             draggable> {t.taskComponent} </div>
                     );
                 break;
