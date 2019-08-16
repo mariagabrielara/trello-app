@@ -6,6 +6,7 @@ import Button from '../Button/Button';
 
 import BoardModal from '../Modals/BoardModal';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 interface SidebarState {
     modalIsOpen: boolean;
@@ -21,6 +22,11 @@ interface Props {
         inprogress: [],
         done: []
     }>;
+    onSetActiveBoard: typeof actions.onSetActiveBoard;
+}
+
+const actions = {
+    onSetActiveBoard: (val: number) => ({type: 'SET_ACTIVE_BOARD', payload: val})
 }
 
 class Sidebar extends React.Component<Props, SidebarState> {
@@ -50,13 +56,12 @@ class Sidebar extends React.Component<Props, SidebarState> {
     }
 
     render () {
-        console.log(this.props.boardsList);
         return (
             <div className="sidebar">
                 <div className="sidebar__title">Boards</div>
                 <ul className="sidebar__list">
                     {this.props.boardsList.map((b) => (
-                        <li className="sidebar__element" key={b.id}>
+                        <li className="sidebar__element" key={b.id} onClick={()=>this.props.onSetActiveBoard(b.id)}>
                             <BoardCard 
                                 imgUrl={b.img}
                                 boardTitle={b.name}
@@ -83,6 +88,12 @@ class Sidebar extends React.Component<Props, SidebarState> {
 
 const mapStateToProps = (state: Props) => ({
     boardsList: state.boardsList
-})
+});
 
-export default connect(mapStateToProps)(Sidebar);
+const mapDispatchToProps = (dispatch: any) => ({
+    ...bindActionCreators({
+        ...actions,
+      }, dispatch)
+    });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

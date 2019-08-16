@@ -4,6 +4,8 @@ import './Board.scss';
 
 import Panel from '../Panel/Panel';
 import Task from '../Task/Task';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 interface Props {
     id: number,
@@ -12,10 +14,16 @@ interface Props {
         img: string, 
         name: string, 
         dueDate: string, 
-        todos: [],
-        inprogress: [],
-        done: []
+        tasks: []
     }>;
+    activeBoardData: {
+        id: number, 
+        img: string, 
+        name: string, 
+        dueDate: string, 
+        tasks: []
+    };
+    onSetActiveBoard: typeof actions.onSetActiveBoard;
 }
 
 interface BoardState {
@@ -29,17 +37,27 @@ interface BoardState {
         img: string, 
         name: string, 
         dueDate: string, 
-        todos: [],
-        inprogress: [],
-        done: []
+        tasks: []
     }
+}
+
+interface BoardGlobalState {
+    activeBoardData: {
+        id: number, 
+        img: string, 
+        name: string, 
+        dueDate: string, 
+        tasks: []
+    }
+}
+
+const actions = {
+    onSetActiveBoard: (val: number) => ({type: 'SET_ACTIVE_BOARD', payload: val})
 }
 
 class Board extends React.Component<Props, BoardState> {
 
     initState() {
-
-        let currentBoard = this.props.boardsList.filter((b) => b.id === this.props.id)
 
         this.setState({
             tasks: [
@@ -69,19 +87,18 @@ class Board extends React.Component<Props, BoardState> {
                 }
             ],
             board: {
-                id: currentBoard[0].id, 
-                img: currentBoard[0].img, 
-                name: currentBoard[0].name, 
-                dueDate: currentBoard[0].dueDate, 
-                todos: currentBoard[0].todos, 
-                inprogress: currentBoard[0].inprogress, 
-                done: currentBoard[0].done
+                id: this.props.activeBoardData.id, 
+                img: this.props.activeBoardData.img, 
+                name: this.props.activeBoardData.name, 
+                dueDate: this.props.activeBoardData.dueDate, 
+                tasks: this.props.activeBoardData.tasks
             }
         });
     }
 
     UNSAFE_componentWillMount() {
         this.initState();
+        return this.props.onSetActiveBoard(this.props.id);
     }
 
     onDragStart = (e: React.DragEvent, id: string) => {
@@ -109,7 +126,6 @@ class Board extends React.Component<Props, BoardState> {
     }
 
     render () {
-
         let tasks: {
             todo: Array<JSX.Element>, 
             inprogress: Array<JSX.Element>, 
@@ -154,15 +170,15 @@ class Board extends React.Component<Props, BoardState> {
 
         return (
             <div className="board">
-                <div className="board__name">{this.state.board.name}</div>
-                <div className="board__due-date">Due date: {this.state.board.dueDate}</div>
+                <div className="board__name">{this.props.activeBoardData.name}</div>
+                <div className="board__due-date">Due date: {this.props.activeBoardData.dueDate}</div>
                 <div 
                     onDragOver={(e)=>this.onDragOver(e)}
                     onDrop={(e)=>{this.onDrop(e, "todo")}}>
                     <Panel 
                         tasksList={tasks.todo}
                         panelTitle="TODO"
-                        panelQuantity={this.state.board.todos.length}
+                        panelQuantity={this.props.activeBoardData.tasks.length}
                     />
                 </div>
                 <div 
@@ -171,7 +187,7 @@ class Board extends React.Component<Props, BoardState> {
                     <Panel 
                         tasksList={tasks.inprogress}
                         panelTitle="IN PROGRESS"
-                        panelQuantity={this.state.board.inprogress.length}
+                        panelQuantity={this.props.activeBoardData.tasks.length}
                     />
                 </div>
                 <div 
@@ -180,7 +196,7 @@ class Board extends React.Component<Props, BoardState> {
                     <Panel 
                         tasksList={tasks.done}
                         panelTitle="DONE"
-                        panelQuantity={this.state.board.done.length}
+                        panelQuantity={this.props.activeBoardData.tasks.length}
                     />
                 </div>
             </div>
@@ -188,4 +204,17 @@ class Board extends React.Component<Props, BoardState> {
     }
     
 }
-export default Board;
+
+const mapStateToProps = (state: BoardGlobalState) => {
+    return ({
+        activeBoardData: state.activeBoardData
+    });
+}
+
+const mapDispatchToProps = (dispatch: any) => ({
+    ...bindActionCreators({
+        ...actions,
+      }, dispatch)
+    });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

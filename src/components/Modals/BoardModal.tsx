@@ -11,9 +11,7 @@ interface Board {
   img: string, 
   name: string, 
   dueDate: string, 
-  todos: Array<Task>,
-  inprogress: Array<Task>,
-  done: Array<Task>
+  tasks: Array<Task>
 }
 
 interface Task {
@@ -64,9 +62,7 @@ class BoardModal extends React.Component<Props, BoardModalState> {
           img: this.state.newBoardImg, 
           name: `${this.state.newBoardName} ${this.props.boardsList.length + 1}`, 
           dueDate: this.state.newBoardDueDate,
-          todos: [],
-          inprogress: [],
-          done: []
+          tasks: []
         }
       )
     }

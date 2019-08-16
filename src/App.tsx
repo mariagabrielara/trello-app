@@ -14,10 +14,9 @@ interface AppState {
     img: string, 
     name: string, 
     dueDate: string, 
-    todos: [],
-    inprogress: [],
-    done: []
+    tasks: []
   }>;
+  activeBoardData: {}
 }
 
 interface Props {
@@ -28,9 +27,7 @@ interface Props {
     img: string, 
     name: string, 
     dueDate: string, 
-    todos: [],
-    inprogress: [],
-    done: []
+    tasks: []
   }>;
 }
 
@@ -39,8 +36,6 @@ const actions = {
 }
 
 class App extends React.Component<Props> {
-
-  
 
   render () {
     let content: JSX.Element = <div>NO BOARDS CREATED</div>;
@@ -52,6 +47,8 @@ class App extends React.Component<Props> {
         />
       );
     } 
+
+    console.log(this.props);
 
     return (
       <div className="app">
@@ -68,8 +65,9 @@ class App extends React.Component<Props> {
 
 const mapStateToProps = (state: AppState) => ({
     activeBoard: state.activeBoard,
-    boardsList: state.boardsList
-})
+    boardsList: state.boardsList,
+    activeBoardData: state.activeBoardData
+});
 
 const mapDispatchToProps = (dispatch: any) => ({
   ...bindActionCreators({

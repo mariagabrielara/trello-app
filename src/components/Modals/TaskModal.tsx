@@ -2,14 +2,13 @@ import React from 'react';
 import Modal from 'react-modal';
 
 import './TaskModal.scss';
-import Board from '../Board/Board';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 interface GlobalState {
   activeBoard: number;
-  boardsList: Array<Board>;
+  boardsList: Array<BoardStructure>;
 }
 
 interface TaskModalState {

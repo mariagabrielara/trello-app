@@ -8,9 +8,7 @@ interface Board {
     img: string, 
     name: string, 
     dueDate: string, 
-    todos: Array<Task>,
-    inprogress: Array<Task>,
-    done: Array<Task>
+    tasks: Array<Task>
 }
 
 interface Task {
@@ -24,62 +22,69 @@ interface Task {
 interface State {
     activeBoard: number;
     boardsList: Array<Board>;
+    activeBoardData: Board;
 }
 
 const initialState: State = {
     activeBoard: 0,
-    boardsList: []
+    boardsList: [],
+    activeBoardData: {
+        id: 0, 
+        img: '', 
+        name: '', 
+        dueDate: '', 
+        tasks: []
+    }
 };
+
+const getActiveBoardData = (state: State) => {
+    return (state.boardsList.filter((item) => item.id === state.activeBoard))[0];
+}
 
 const reducer = (state: State = initialState, action: Action) => {
 
-    const addTaskToActiveBoardObject = (action: Action) => {
-
-        let currentBoard: Board = (state.boardsList.filter((b)=>b.id===state.activeBoard))[0];
-        switch (action.payload.panel) {
-            case 'todos':
-                currentBoard.todos.push(action.payload.task);
-                break;
-            case 'inprogress':
-                currentBoard.inprogress.push(action.payload.task);
-                break;
-            case 'done':
-                currentBoard.done.push(action.payload.task);
-                break;
-            default:
-                currentBoard.todos.push(action.payload.task);
-                break;
-        }
-        
-        let newArr = state.boardsList.map(b => {
-            if (b.id === state.activeBoard) {
-                return currentBoard;
-            }
-            return b;
-        });
-        console.log(newArr);
-        return newArr;
-    }
-
+    let newActiveBoard = getActiveBoardData(state);
     switch (action.type) {
         case 'SET_ACTIVE_BOARD':
-            return {
-                ...state,
-                activeBoard: action.payload
-            }
-
+                return {
+                    ...state,
+                    activeBoard: action.payload,
+                    activeBoardData: {
+                        id: newActiveBoard.id, 
+                        img: newActiveBoard.img, 
+                        name: newActiveBoard.name, 
+                        dueDate: newActiveBoard.dueDate, 
+                        tasks: newActiveBoard.tasks
+                    }
+                }
         case 'CREATE_NEW_BOARD':
-            return {
-                ...state,
-                activeBoard: action.payload.id,
-                boardsList: [...state.boardsList, action.payload]
-            }
-        case 'CREATE_NEW_TASK':
-            let updatedBoardsList = addTaskToActiveBoardObject(action);
-            return {
-                ...state,
-                boardsList: updatedBoardsList
-            }
+            if (newActiveBoard) {
+                return {
+                    ...state,
+                    activeBoard: action.payload.id,
+                    boardsList: [...state.boardsList, action.payload],
+                    activeBoardData: {
+                        id: newActiveBoard.id, 
+                        img: newActiveBoard.img, 
+                        name: newActiveBoard.name, 
+                        dueDate: newActiveBoard.dueDate, 
+                        tasks: newActiveBoard.tasks
+                    }
+                } 
+            } else {
+                return {
+                    ...state,
+                    activeBoard: action.payload.id,
+                    boardsList: [...state.boardsList, action.payload],
+                    activeBoardData: {
+                        id: action.payload.id, 
+                        img: action.payload.img, 
+                        name: action.payload.name, 
+                        dueDate: action.payload.dueDate, 
+                        tasks: action.payload.tasks
+                    }
+                } 
+            } 
         default:
             return state;
     }
