@@ -25,6 +25,9 @@ interface Props {
     };
     onSetActiveBoard: typeof actions.onSetActiveBoard;
     onChangePanel: typeof actions.onChangePanel;
+    todosQuantity: number;
+    inprogressQuantity: number;
+    doneQuantity: number;
 }
 
 interface BoardState {
@@ -35,7 +38,10 @@ interface BoardState {
         name: string, 
         dueDate: string, 
         tasks: []
-    }
+    },
+    todosQuantity: number;
+    inprogressQuantity: number;
+    doneQuantity: number;
 }
 
 interface BoardGlobalState {
@@ -45,7 +51,10 @@ interface BoardGlobalState {
         name: string, 
         dueDate: string, 
         tasks: []
-    }
+    },
+    todosQuantity: number;
+    inprogressQuantity: number;
+    doneQuantity: number;
 }
 
 interface FormattedTask {
@@ -92,7 +101,10 @@ class Board extends React.Component<Props, BoardState> {
                 name: this.props.activeBoardData.name, 
                 dueDate: this.props.activeBoardData.dueDate, 
                 tasks: this.props.activeBoardData.tasks
-            }
+            },
+            todosQuantity: 0,
+            inprogressQuantity: 0,
+            doneQuantity: 0
         });
     }
 
@@ -193,7 +205,7 @@ class Board extends React.Component<Props, BoardState> {
                     <Panel 
                         tasksList={tasks.todo}
                         panelTitle="TODO"
-                        panelQuantity={this.props.activeBoardData.tasks.length}
+                        panelQuantity={this.props.todosQuantity}
                         panelType='todo'
                     />
                 </div>
@@ -203,7 +215,7 @@ class Board extends React.Component<Props, BoardState> {
                     <Panel 
                         tasksList={tasks.inprogress}
                         panelTitle="IN PROGRESS"
-                        panelQuantity={this.props.activeBoardData.tasks.length}
+                        panelQuantity={this.props.inprogressQuantity}
                         panelType='inprogress'
                     />
                 </div>
@@ -213,7 +225,7 @@ class Board extends React.Component<Props, BoardState> {
                     <Panel 
                         tasksList={tasks.done}
                         panelTitle="DONE"
-                        panelQuantity={this.props.activeBoardData.tasks.length}
+                        panelQuantity={this.props.doneQuantity}
                         panelType='done'
                     />
                 </div>
@@ -225,7 +237,10 @@ class Board extends React.Component<Props, BoardState> {
 
 const mapStateToProps = (state: BoardGlobalState) => {
     return ({
-        activeBoardData: state.activeBoardData
+        activeBoardData: state.activeBoardData,
+        todosQuantity: state.todosQuantity,
+        inprogressQuantity: state.inprogressQuantity,
+        doneQuantity: state.doneQuantity
     });
 }
 

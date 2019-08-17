@@ -24,6 +24,9 @@ interface State {
     activeBoard: number;
     boardsList: Array<Board>;
     activeBoardData: Board;
+    todosQuantity: number;
+    inprogressQuantity: number;
+    doneQuantity: number;
 }
 
 const initialState: State = {
@@ -42,7 +45,10 @@ const initialState: State = {
             taskStatus: '',
             taskPanel: 'todo'
         }]
-    }
+    }, 
+    todosQuantity: 0,
+    inprogressQuantity: 0,
+    doneQuantity: 0
 };
 
 const getActiveBoardData = (state: State) => {
@@ -103,11 +109,42 @@ const updateBoardTask = (state: State, action: Action) => {
 
 }
 
+const getTasksQuantityCategories = (updatedBoards: Array<Board>, state: State) => {
+
+    let currentUpdatedBoard = (updatedBoards.filter(b => b.id === state.activeBoard))[0];
+    
+    let currentBoardTasks = currentUpdatedBoard.tasks;
+    
+    let todosCounter = 0;
+    let inprogressCounter = 0;
+    let doneCounter = 0;
+
+    for (let i = 0; i < currentBoardTasks.length; i++) {
+        switch (currentBoardTasks[i].taskPanel) {
+            case 'todo':
+                todosCounter++;
+                break;
+            case 'inprogress':
+                inprogressCounter++;
+                break;
+            case 'done':
+                doneCounter++;
+                break;
+            default: 
+                todosCounter = 0;
+        }
+    }
+
+    return [todosCounter, inprogressCounter, doneCounter];
+}
+
 const reducer = (state: State = initialState, action: Action) => {
 
     let newActiveBoard = getActiveBoardData(state);
+
     switch (action.type) {
         case 'SET_ACTIVE_BOARD':
+                let quantities = getTasksQuantityCategories(state.boardsList, state);
                 return {
                     ...state,
                     activeBoard: action.payload,
@@ -117,10 +154,14 @@ const reducer = (state: State = initialState, action: Action) => {
                         name: newActiveBoard.name, 
                         dueDate: newActiveBoard.dueDate, 
                         tasks: newActiveBoard.tasks
-                    }
+                    },
+                    todosQuantity: quantities[0],
+                    inprogressQuantity: quantities[1],
+                    doneQuantity: quantities[2]
                 }
         case 'CREATE_NEW_BOARD':
             if (newActiveBoard) {
+                let quantitiesNB = getTasksQuantityCategories(state.boardsList, state);
                 return {
                     ...state,
                     activeBoard: action.payload.id,
@@ -130,7 +171,10 @@ const reducer = (state: State = initialState, action: Action) => {
                         img: newActiveBoard.img, 
                         name: newActiveBoard.name, 
                         dueDate: newActiveBoard.dueDate, 
-                        tasks: newActiveBoard.tasks
+                        tasks: newActiveBoard.tasks,
+                        todosQuantity: quantitiesNB[0],
+                        inprogressQuantity: quantitiesNB[1],
+                        doneQuantity: quantitiesNB[2]
                     }
                 } 
             } else {
@@ -149,15 +193,23 @@ const reducer = (state: State = initialState, action: Action) => {
             } 
         case 'CREATE_NEW_TASK':
             let boardsUpdated = updateBoardsList(state, action);
+            let quantitiesNT = getTasksQuantityCategories(boardsUpdated, state);
             return {
                     ...state,
-                    boardsList: boardsUpdated
+                    boardsList: boardsUpdated,
+                    todosQuantity: quantitiesNT[0],
+                    inprogressQuantity: quantitiesNT[1],
+                    doneQuantity: quantitiesNT[2]
                 } 
         case 'ON_CHANGE_PANEL':
             let updatedBoards = updateBoardTask(state, action);
+            let quantitiesCP = getTasksQuantityCategories(updatedBoards, state);
             return {
                     ...state,
-                    boardsList: updatedBoards
+                    boardsList: updatedBoards,
+                    todosQuantity: quantitiesCP[0],
+                    inprogressQuantity: quantitiesCP[1],
+                    doneQuantity: quantitiesCP[2]
                 } 
         default:
             return state;

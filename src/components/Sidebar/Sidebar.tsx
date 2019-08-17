@@ -23,6 +23,7 @@ interface Props {
         done: []
     }>;
     onSetActiveBoard: typeof actions.onSetActiveBoard;
+    todosQuantity: number;
 }
 
 const actions = {
@@ -65,7 +66,7 @@ class Sidebar extends React.Component<Props, SidebarState> {
                             <BoardCard 
                                 imgUrl={b.img}
                                 boardTitle={b.name}
-                                todos={0} />
+                                todos={this.props.todosQuantity} />
                         </li>
                     ))}
                 </ul>
@@ -87,7 +88,8 @@ class Sidebar extends React.Component<Props, SidebarState> {
 }
 
 const mapStateToProps = (state: Props) => ({
-    boardsList: state.boardsList
+    boardsList: state.boardsList,
+    todosQuantity: state.todosQuantity
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
